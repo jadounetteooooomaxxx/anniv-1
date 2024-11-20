@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tirage au Sort des Thèmes</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; margin-top: 20px; }
+        .result { font-size: 24px; font-weight: bold; color: #f57c00; margin-top: 20px; }
+        .themes { margin-top: 30px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Tirage au sort des thèmes !</h1>
+    <p>Clique sur "Start" pour obtenir ton thème !</p>
+    <button id="startButton">Start</button>
+    <div class="result" id="themeResult"></div>
+    <div class="themes" id="remainingThemes"></div>
+
+    <script>
+        const themes = [
+            "Guerrière", "Kebabier", "Disco paillette", "Lutin inspecteur gadget", 
+            "Blonde (perruque)", "Doris Shrek", "Masque (effrayant ou stylé)", 
+            "Lorax", "Coquette", "Animal", "Glamour", "Homme cliché"
+        ];
+
+        let assignedThemes = [];
+
+        function getRandomTheme() {
+            const availableThemes = themes.filter(theme => !assignedThemes.includes(theme));
+            if (availableThemes.length === 0) {
+                return null;
+            }
+            const randomIndex = Math.floor(Math.random() * availableThemes.length);
+            return availableThemes[randomIndex];
+        }
+
+        document.getElementById("startButton").addEventListener("click", function() {
+            const theme = getRandomTheme();
+            if (theme) {
+                assignedThemes.push(theme);
+                document.getElementById("themeResult").textContent = "Ton thème est : " + theme;
+            } else {
+                document.getElementById("themeResult").textContent = "Tous les thèmes ont été attribués !";
+                document.getElementById("startButton").disabled = true;
+            }
+            updateRemainingThemes();
+        });
+
+        function updateRemainingThemes() {
+            const availableThemes = themes.filter(theme => !assignedThemes.includes(theme));
+            document.getElementById("remainingThemes").textContent = "Thèmes restants : " + availableThemes.join(", ");
+        }
+    </script>
+</body>
+</html>
